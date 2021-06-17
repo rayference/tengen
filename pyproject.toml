@@ -1,50 +1,49 @@
 [tool.poetry]
-name = "tengen"
-version = "0.1.1"
-description = "Tengen"
 authors = ["Yvan Nollet <yvan.nollet@rayference.eu>"]
-license = "MIT"
-readme = "README.rst"
-homepage = "https://github.com/nollety/tengen"
-repository = "https://github.com/nollety/tengen"
-documentation = "https://tengen.readthedocs.io"
 classifiers = [
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
 ]
+description = "Tengen"
+documentation = "https://tengen.readthedocs.io"
+homepage = "https://github.com/nollety/tengen"
+license = "MIT"
+name = "tengen"
+readme = "README.rst"
+repository = "https://github.com/nollety/tengen"
+version = "0.1.1"
 
 [tool.poetry.urls]
 Changelog = "https://github.com/nollety/tengen/releases"
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
 click = "^8.0.1"
+python = "^3.7.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.4"
-coverage = {extras = ["toml"], version = "^5.4"}
-safety = "^1.10.3"
-mypy = "^0.902"
-typeguard = "^2.12.1"
-xdoctest = {extras = ["colors"], version = "^0.15.4"}
-sphinx = "^4.0.2"
-sphinx-autobuild = "^2021.3.14"
-pre-commit = "^2.13.0"
-flake8 = "^3.9.2"
+Pygments = "^2.9.0"
 black = "^20.8b1"
+coverage = {extras = ["toml"], version = "^5.4"}
+darglint = "^1.8.0"
+flake8 = "^3.9.2"
 flake8-bandit = "^2.1.2"
 flake8-bugbear = "^21.4.3"
 flake8-docstrings = "^1.6.0"
 flake8-rst-docstrings = "^0.2.3"
+mypy = "^0.902"
 pep8-naming = "^0.11.1"
-darglint = "^1.8.0"
-reorder-python-imports = "^2.5.0"
+pre-commit = "^2.13.0"
 pre-commit-hooks = "^4.0.1"
-sphinx-rtd-theme = "^0.5.2"
+pytest = "^6.2.4"
+reorder-python-imports = "^2.5.0"
+safety = "^1.10.3"
+sphinx = "^4.0.2"
+sphinx-autobuild = "^2021.3.14"
 sphinx-click = "^3.0.1"
-Pygments = "^2.9.0"
+sphinx-rtd-theme = "^0.5.2"
+typeguard = "^2.12.1"
+xdoctest = {extras = ["colors"], version = "^0.15.4"}
 
 [tool.poetry.scripts]
 tengen = "tengen.__main__:main"
@@ -57,16 +56,16 @@ branch = true
 source = ["tengen"]
 
 [tool.coverage.report]
-show_missing = true
 fail_under = 100
+show_missing = true
 
 [tool.mypy]
-strict = true
 pretty = true
 show_column_numbers = true
 show_error_codes = true
 show_error_context = true
+strict = true
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
