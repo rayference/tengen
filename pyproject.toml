@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tengen"
-version = "0.1.0"
+version = "0.1.1"
 description = "Tengen"
 authors = ["Yvan Nollet <yvan.nollet@rayference.eu>"]
 license = "MIT"
