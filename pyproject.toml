@@ -20,6 +20,13 @@ Changelog = "https://github.com/nollety/tengen/releases"
 [tool.poetry.dependencies]
 click = "^8.0.1"
 python = "^3.7.1"
+xarray = "^0.18.2"
+numpy = "^1.20.3"
+pandas = "^1.2.4"
+h5netcdf = "^0.11.0"
+requests = "^2.25.1"
+Pint = "^0.17"
+ipykernel = "^5.5.5"
 
 [tool.poetry.dev-dependencies]
 Pygments = "^2.9.0"
