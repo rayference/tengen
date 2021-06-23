@@ -35,10 +35,12 @@ def make(identifier: str) -> xr.Dataset:
         If ``identifier`` is unknown.
     """
     if identifier == "coddington_2021":
-        url = "https://lasp.colorado.edu/lisird/resources/lasp/hsrs/"
-        "hybrid_reference_spectrum_c2021-03-04_with_unc.nc"
+        url = (
+            "https://lasp.colorado.edu/lisird/resources/lasp/hsrs/"
+            "hybrid_reference_spectrum_c2021-03-04_with_unc.nc"
+        )
         response = requests.get(url)
-        return xr.open_dataset(io.BytesIO(response.content))  # type: ignore
+        return xr.open_dataset(io.BytesIO(response.content), engine="h5netcdf")  # type: ignore
     elif identifier == "thuillier_2003":
         # alternative url:
         # "media.libsyn.com/media/npl1/Solar_irradiance_Thuillier_2002.xls"
@@ -84,7 +86,11 @@ _W_ATTRS = {
 _T_ATTRS = {"standard_name": "time", "long_name": "time"}
 
 
-@ureg.wraps(ret=None, args=("nm", "W/m^2/s", None, None), strict=False)
+@ureg.wraps(
+    ret=None,
+    args=("nm", "W * m^-2 * nm^-1", None, None, None, None, None, None, None, None),
+    strict=False,
+)
 def make_data_set(
     w: Union[ureg.Quantity, np.ndarray],
     ssi: Union[ureg.Quantity, np.ndarray],
@@ -106,9 +112,6 @@ def make_data_set(
 
     ssi: :class:`~pint.Quantity` or :class:`~numpy.ndarray`
         Solar spectral irradiance [W/m^2/s].
-
-        convention: str
-        Metadata convention.
 
     title: str
         Dataset title.
