@@ -40,7 +40,9 @@ def make(identifier: str) -> xr.Dataset:
             "hybrid_reference_spectrum_c2021-03-04_with_unc.nc"
         )
         response = requests.get(url)
-        return xr.open_dataset(io.BytesIO(response.content), engine="h5netcdf")  # type: ignore
+        return xr.open_dataset(
+            io.BytesIO(response.content), engine="h5netcdf"
+        )  # type: ignore
     elif identifier == "thuillier_2003":
         # alternative url:
         # "media.libsyn.com/media/npl1/Solar_irradiance_Thuillier_2002.xls"
