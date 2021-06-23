@@ -1,6 +1,9 @@
 """Command-line interface."""
 import datetime
 import io
+from typing import Any
+from typing import Dict
+from typing import Hashable
 from typing import Optional
 from typing import Tuple
 from typing import Union
@@ -35,7 +38,7 @@ def make(identifier: str) -> xr.Dataset:
         url = "https://lasp.colorado.edu/lisird/resources/lasp/hsrs/"
         "hybrid_reference_spectrum_c2021-03-04_with_unc.nc"
         response = requests.get(url)
-        return xr.open_dataset(io.BytesIO(response.content))
+        return xr.open_dataset(io.BytesIO(response.content))  # type: ignore
     elif identifier == "thuillier_2003":
         # alternative url:
         # "media.libsyn.com/media/npl1/Solar_irradiance_Thuillier_2002.xls"
@@ -44,15 +47,9 @@ def make(identifier: str) -> xr.Dataset:
         data = np.loadtxt(io.BytesIO(response.content), comments=["/", "!"])
         wavelength_values = data[:, 0]
         spectral_irradiance_values = ureg.Quantity(data[:, 1], "microwatt/cm^2/nm")
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # source:
-        # https://earth.esa.int/web/eoportal/satellite-missions/a/atlas
-        # https://heasarc.gsfc.nasa.gov/docs/heasarc/missions/eureca.html
-        start_obs = datetime.date(1992, 3, 24)
-        end_obs = datetime.date(1993, 7, 1)
-
-        return make_data_set(
+        return make_data_set(  # type: ignore
             w=wavelength_values,
             ssi=spectral_irradiance_values,
             title="Thuillier (2003) solar irradiance spectrum",
@@ -66,7 +63,6 @@ def make(identifier: str) -> xr.Dataset:
             "spectrum",
             history=f"{now} - data set creation - tengen --identifer={identifier}",
             references="https://doi.org/10.1023/A:1024048429145",
-            obs=(start_obs, end_obs),
         )
     else:
         raise ValueError(f"Unknown data set identifier '{identifier}'")
@@ -98,8 +94,7 @@ def make_data_set(
     history: str,
     references: str,
     comment: Optional[str] = None,
-    url: Optional[str] = None,
-    obs: Optional[Tuple[np.datetime64]] = None,
+    url_info: Optional[Tuple[str, str]] = None,
     t: Optional[pd.DatetimeIndex] = None,
 ) -> xr.Dataset:
     """Make a data set from variables values.
@@ -134,27 +129,23 @@ def make_data_set(
     comment: str, optional
         Comment.
 
-    url: tuple of str, optional
+    url_info: tuple of str, optional
         URL where the data is freely available, last accessed date.
         Provide the date in the format: ``yyyy-mm-dd``, e.g. ``2020-07-31``.
-
-    obs: tuple of datetime64, optional
-        Start date of observation and end date of observation in the case where
-        the solar spectral irradiance data comes from observation data.
 
     t: :class:`~pandas.DatetimeIndex`, optional
         Time stamps [days].
     """
-    coords = {"w": ("w", w, _W_ATTRS)}
+    coords: Dict[Hashable, Any] = {"w": ("w", w, _W_ATTRS)}
 
     if t is not None:
         coords["t"] = ("t", t, _T_ATTRS)
-        data_vars = {"ssi": (("t", "w"), ssi, _SSI_ATTRS)}
+        data_vars: Dict[Hashable, Any] = {"ssi": (("t", "w"), ssi, _SSI_ATTRS)}
     else:
         coords["t"] = ("t", np.empty(0), _T_ATTRS)
         data_vars = {"ssi": ("w", ssi, _SSI_ATTRS)}
 
-    attrs = dict(
+    attrs: Dict[Hashable, Any] = dict(
         Conventions="CF-1.8",
         title=title,
         institution=institution,
@@ -166,13 +157,8 @@ def make_data_set(
     if comment is not None:
         attrs["comment"] = comment
 
-    if obs is not None:
-        start, end = obs
-        attrs["obs_start"] = str(start)
-        attrs["obs_end"] = str(end)
-
-    if url is not None:
-        url, date = url
+    if url_info is not None:
+        url, date = url_info
         attrs["url"] = f"original data available at {url} (last accessed on {date})"
 
     ds = xr.Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
