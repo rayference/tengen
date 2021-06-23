@@ -65,7 +65,7 @@ def make(identifier: str) -> xr.Dataset:
             "instrument onboard the EURECA satellite (from 1992-8-7 to "
             "1993-7-1), with the Kurucz and Bell (1995) synthetic "
             "spectrum",
-            history=f"{now} - data set creation - tengen --identifer={identifier}",
+            history=f"{now} - data set creation - 'tengen --identifer {identifier}'",
             references="https://doi.org/10.1023/A:1024048429145",
         )
     else:
