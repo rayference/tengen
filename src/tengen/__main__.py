@@ -15,7 +15,7 @@ from tengen import core
 @click.option(
     "--identifier",
     "-i",
-    help="Atmospheric profile identifier.",
+    help="Solar irradiance spectrum identifier.",
     required=True,
     type=click.Choice(
         ["thuillier_2003", "coddington_2021"],
