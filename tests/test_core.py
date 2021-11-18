@@ -6,26 +6,26 @@ import pandas as pd
 import pytest
 import xarray as xr
 
-from tengen import core
+from tengen.core import make, make_data_set
 
 
 def test_make() -> None:
     """Returns a xr.Dataset."""
     print("hello from test_make")
     for identifier in ["thuillier_2003", "coddington_2021"]:
-        ds = core.make(identifier=identifier)
+        ds = make(identifier=identifier)
         assert isinstance(ds, xr.Dataset)
 
 
 def test_make_raises() -> None:
     """Raises a ValueError when the identifier is unknown."""
     with pytest.raises(ValueError):
-        core.make(identifier="unknown")
+        make(identifier="unknown")
 
 
 def test_make_data_set() -> None:
     """Returns a data set."""
-    ds = core.make_data_set(
+    ds = make_data_set(
         w=np.linspace(1, 2),
         ssi=np.random.random(50),
         title="test",
@@ -39,7 +39,7 @@ def test_make_data_set() -> None:
 
 def test_make_data_set_t_not_none() -> None:
     """Returns a data set when t is not None."""
-    ds = core.make_data_set(
+    ds = make_data_set(
         w=np.linspace(1, 2),
         ssi=np.random.random((31, 50)),
         t=pd.date_range(
@@ -56,7 +56,7 @@ def test_make_data_set_t_not_none() -> None:
 
 def test_make_data_set_comment_not_none() -> None:
     """Returns a data set when comment is not None."""
-    ds = core.make_data_set(
+    ds = make_data_set(
         w=np.linspace(1, 2),
         ssi=np.random.random(50),
         title="test",
@@ -71,7 +71,7 @@ def test_make_data_set_comment_not_none() -> None:
 
 def test_make_data_set_url_info_not_none() -> None:
     """Returns a data set when url_info is not None."""
-    ds = core.make_data_set(
+    ds = make_data_set(
         w=np.linspace(1, 2),
         ssi=np.random.random(50),
         title="test",

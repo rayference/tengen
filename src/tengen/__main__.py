@@ -1,7 +1,7 @@
 """Command-line interface."""
 import click
 
-from tengen import core
+from .core import make
 
 
 @click.command()
@@ -25,7 +25,7 @@ from tengen import core
 @click.version_option()
 def main(file_name: str, identifier: str) -> None:
     """Tengen."""
-    ds = core.make(identifier=identifier)
+    ds = make(identifier=identifier)
     ds.to_netcdf(file_name)
 
 
