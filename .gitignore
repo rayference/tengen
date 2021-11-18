@@ -8,6 +8,8 @@
 /docs/_build/
 /src/*.egg-info/
 __pycache__/
+.tengen_cache
+.ipynb_checkpoints
 
 # VS Code
 .vscode/
