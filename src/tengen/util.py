@@ -1,10 +1,12 @@
+import datetime
 import typing as t
 
 import numpy as np
 import pandas as pd
+import pint
 import xarray as xr
 
-from .units import ureg
+from . import __version__
 
 # CF Standard Name Table Version 77, 19 January 2021
 _SSI_ATTRS = {
@@ -22,88 +24,60 @@ _W_ATTRS = {
 _T_ATTRS = {"standard_name": "time", "long_name": "time"}
 
 
-@ureg.wraps(
-    ret=None,
-    args=("nm", "W * m^-2 * nm^-1", None, None, None, None, None, None, None, None),
-    strict=False,
-)
-def make_data_set(
-    w: t.Union[ureg.Quantity, np.ndarray],
-    ssi: t.Union[ureg.Quantity, np.ndarray],
-    title: str,
-    institution: str,
-    source: str,
-    history: str,
-    references: str,
-    comment: t.Optional[str] = None,
-    url_info: t.Optional[t.Tuple[str, str]] = None,
+def to_data_set(
+    ssi: pint.Quantity,
+    w: pint.Quantity,
+    url: str,
     t: t.Optional[pd.DatetimeIndex] = None,
+    attrs: t.Optional[t.MutableMapping[str, str]] = None,
 ) -> xr.Dataset:
     """Make a data set from variables values.
 
     Parameters
     ----------
-    w: :class:`~pint.Quantity` or :class:`~numpy.ndarray`
-        Wavelength [nm].
+    ssi: :class:`~pint.Quantity`
+        Solar spectral irradiance.
 
-    ssi: :class:`~pint.Quantity` or :class:`~numpy.ndarray`
-        Solar spectral irradiance [W/m^2/s].
+    w: :class:`~pint.Quantity`
+        Wavelength.
 
-    title: str
-        Dataset title.
-
-    institution: str
-        Where the original data was produced.
-
-    source: str
-        The method of production of the original data.
-
-    history: str
-        Audit trail for modifications to the original data.
-
-    references: str
-        Published or web-based references that describe the data or methods
-        used to produce it.
-
-    comment: str, optional
-        Comment.
-
-    url_info: tuple of str, optional
-        URL where the data is freely available, last accessed date.
-        Provide the date in the format: ``yyyy-mm-dd``, e.g. ``2020-07-31``.
+    url: str
+        URL.
 
     t: :class:`~pandas.DatetimeIndex`, optional
-        Time stamps [days].
+        Time stamps.
+
+    attrs: dict, optional
+        Attributes.
 
     Returns
     -------
     :class:`~xarray.Dataset`
         Solar irradiance spectrum data set.
     """
-    coords: t.Dict[t.Hashable, t.Any] = {"w": ("w", w, _W_ATTRS)}
+    coords: t.Dict[t.Hashable, t.Any] = {"w": ("w", w.m_as("nm"), _W_ATTRS)}
 
     if t is not None:
         coords["t"] = ("t", t, _T_ATTRS)
         data_vars: t.Dict[t.Hashable, t.Any] = {"ssi": (("t", "w"), ssi, _SSI_ATTRS)}
     else:
         coords["t"] = ("t", np.empty(0), _T_ATTRS)
-        data_vars = {"ssi": ("w", ssi, _SSI_ATTRS)}
+        data_vars = {"ssi": ("w", ssi.m_as("W/m^2/nm"), _SSI_ATTRS)}
 
-    attrs: t.Dict[t.Hashable, t.Any] = dict(
-        Conventions="CF-1.8",
-        title=title,
-        institution=institution,
-        source=source,
-        history=history,
-        references=references,
-    )
+    utcnow = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
-    if comment is not None:
-        attrs["comment"] = comment
+    if attrs is None:
+        attrs = dict(
+            Conventions="CF-1.8",
+            title="unknown",
+            institution="unknown",
+            source="unknown",
+            references="unknown",
+        )
 
-    if url_info is not None:
-        url, date = url_info
-        attrs["url"] = f"original data available at {url} (last accessed on {date})"
+    attrs["history"] = f"{utcnow} - data set creation - tengen, version {__version__}"
+
+    attrs["url"] = f"original data available at {url} (last accessed on {utcnow})"
 
     ds = xr.Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
 

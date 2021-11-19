@@ -1,12 +1,23 @@
 """Core module."""
 import xarray as xr
 
-from .coddington_2021 import coddington_2021
-from .thuillier_2003 import thuillier_2003
+from .resources import (
+    thuillier_2003,
+    coddington_2021_high_resolution,
+    coddington_2021_p005,
+    coddington_2021_p025,
+    coddington_2021_p1,
+    coddington_2021_1,
+)
+
 
 RESOURCE = {
     "thuillier_2003": thuillier_2003,
-    "coddington_2021": coddington_2021,
+    "coddington_2021-high_resolution": coddington_2021_high_resolution,
+    "coddington_2021-p005": coddington_2021_p005,
+    "coddington_2021-p025": coddington_2021_p025,
+    "coddington_2021-p1": coddington_2021_p1,
+    "coddington_2021-1": coddington_2021_1,
 }
 
 
