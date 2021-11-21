@@ -8,6 +8,7 @@ from .resources import (
     coddington_2021_p025,
     coddington_2021_p1,
     coddington_2021_1,
+    solid_2017,
 )
 
 
@@ -18,6 +19,7 @@ RESOURCE = {
     "coddington_2021-p025": coddington_2021_p025,
     "coddington_2021-p1": coddington_2021_p1,
     "coddington_2021-1": coddington_2021_1,
+    "solid_2017": solid_2017,
 }
 
 
