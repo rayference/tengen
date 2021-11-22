@@ -222,7 +222,7 @@ def transform_whi_2008(
         Associated transform method.
     """
 
-    def f(url: t.Union[str, t.List[str]]):
+    def f(url: t.Union[str, t.List[str]]) -> xr.Dataset:
         r = requests.get(url)
         data = np.loadtxt(fname=BytesIO(r.content), comments=";", skiprows=142)
         wavelength = data[:, 0]
@@ -381,8 +381,22 @@ SOLID_2017_FILES = [
 SOLID_2017_URL = [SOLID_2017_FTP_FOLDER + file for file in SOLID_2017_FILES]
 
 
-def transform_solid_2017(url: t.Union[str, t.List[str]]):
+def transform_solid_2017(url: t.Union[str, t.List[str]]) -> xr.Dataset:
+    """Transform function for SOLID (2017).
 
+    Transform the HTTP response to :class:`xarray.Dataset` for the SOLID
+    (2017) solar irradiance spectrum data set.
+
+    Parameters
+    ----------
+    url: str or list of str
+        URL.
+
+    Returns
+    -------
+    :class:`xarray.Dataset`
+        SOLID (2017) solar irradiance spectrum data set.
+    """
     filenames = []
     for x in url:
         with closing(request.urlopen(x)) as r:
@@ -430,8 +444,22 @@ solid_2017 = Resource(
 # ------------------------------------------------------------------------------
 
 
-def transform_coddington_2021(url: t.Union[str, t.List[str]]):
-    """ """
+def transform_coddington_2021(url: t.Union[str, t.List[str]]) -> xr.Dataset:
+    """Transform function for Coddington (2021).
+
+    Transform the HTTP response to :class:`xarray.Dataset` for the Coddington
+    (2021) solar irradiance spectrum data set.
+
+    Parameters
+    ----------
+    url: str or list of str
+        URL.
+
+    Returns
+    -------
+    :class:`xarray.Dataset`
+        Coddington (2021) solar irradiance spectrum data set.
+    """
     response = requests.get(url)
     raw = xr.open_dataset(BytesIO(response.content), engine="h5netcdf")  # type: ignore
     w = ureg.Quantity(raw["Vacuum Wavelength"].values, raw["Vacuum Wavelength"].units)
@@ -458,7 +486,7 @@ class Coddington2021Resolution(enum.Enum):
 
 def coddington_2021_url(
     resolution: Coddington2021Resolution = Coddington2021Resolution.HIGH_RESOLUTION,
-):
+) -> str:
 
     root_url = "https://lasp.colorado.edu/lisird/resources/lasp/hsrs"
     return f"{root_url}/hybrid_reference_spectrum_{resolution.value}c2021-03-04_with_unc.nc"
