@@ -280,7 +280,73 @@ whi_2008_quiet_sun = Resource(
 #                                Meftah (2017)
 # ------------------------------------------------------------------------------
 
-""
+MEFTAH_2018_URL = "http://cdsarc.u-strasbg.fr/ftp/J/A+A/611/A1/spectrum.dat.gz"
+
+
+def transform_meftah_2018(url: t.Union[str, t.List[str]]) -> xr.Dataset:
+    """Transform function for Meftah (2018).
+
+    Transform the HTTP response to :class:`xarray.Dataset` for the Meftah
+    (2018) solar irradiance spectrum data set.
+
+    Parameters
+    ----------
+    url: str or list of str
+        URL.
+
+    Returns
+    -------
+    :class:`xarray.Dataset`
+        Meftah (2018) solar irradiance spectrum data set.
+    """
+
+    filename = "spectrum.dat.gz"
+    with closing(request.urlopen(url)) as r:
+        with open(filename, "wb") as f:
+            shutil.copyfileobj(r, f)
+
+    data = np.genfromtxt(fname=filename, missing_values="---", filling_values=np.nan)
+
+    wavelength = data[:, 0]
+    spectral_irradiance = data[:, 1]
+
+    # The raw data covers the 0.5 to 3000.10 nm range whereas the range
+    # indicated by Meftah (2018) in:
+    # https://doi.org/10.1051/0004-6361/201731316
+    # is 165 to 3000 nm.
+    # Therefore, we ignore wavelengthes < 165, and keep the 3000.10 nm point.
+    mask = wavelength >= 165.0
+
+    start = datetime.date(2008, 4, 5)
+    end = datetime.date(2016, 12, 31)
+
+    ds = to_data_set(
+        ssi=ureg.Quantity(spectral_irradiance[mask], "W/m^2/nm"),
+        w=ureg.Quantity(wavelength[mask], "nm"),
+        url=MEFTAH_2018_URL,
+        attrs=dict(
+            title="Meftah et al (2018) solar irradiance reference spectrum",
+            source=(
+                "Observations from the SOLSPEC instrument of the SOLAR payload "
+                "onboard the international space station"
+            ),
+            ref="https://doi.org/10.1051/0004-6361/201731316",
+            observation_period=" to ".join(
+                [x.strftime("%Y-%m-%d") for x in [start, end]]
+            ),
+        ),
+    )
+
+    os.remove(filename)
+
+    return ds
+
+
+meftah_2018 = Resource(
+    name="meftah_2018",
+    url=MEFTAH_2018_URL,
+    transform=transform_meftah_2018,
+)
 
 # ------------------------------------------------------------------------------
 #                                SOLID (2017)
