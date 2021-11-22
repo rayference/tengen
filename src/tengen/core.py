@@ -1,19 +1,17 @@
 """Core module."""
 import xarray as xr
 
-from .resources import (
-    thuillier_2003,
-    solid_2017,
-    whi_2008_sunspot_active,
-    whi_2008_faculae_active,
-    whi_2008_quiet_sun,
-    meftah_2018,
-    coddington_2021_high_resolution,
-    coddington_2021_p005,
-    coddington_2021_p025,
-    coddington_2021_p1,
-    coddington_2021_1,
-)
+from .resources import coddington_2021_1
+from .resources import coddington_2021_high_resolution
+from .resources import coddington_2021_p005
+from .resources import coddington_2021_p025
+from .resources import coddington_2021_p1
+from .resources import meftah_2018
+from .resources import solid_2017
+from .resources import thuillier_2003
+from .resources import whi_2008_faculae_active
+from .resources import whi_2008_quiet_sun
+from .resources import whi_2008_sunspot_active
 
 
 RESOURCE = {

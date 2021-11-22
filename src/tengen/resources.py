@@ -1,13 +1,13 @@
 """Resources module."""
 import datetime
 import enum
+import os
 import pathlib
 import shutil
 import typing as t
 import urllib.request as request
 from contextlib import closing
 from io import BytesIO
-import os
 
 import attr
 import numpy as np
@@ -15,14 +15,14 @@ import pandas as pd
 import requests
 import xarray as xr
 
-from .units import format_missing_carats_units, ureg
+from .units import format_missing_carats_units
+from .units import ureg
 from .util import to_data_set
 
 
 @attr.s
 class Resource:
-    """
-    Resource class.
+    """Resource class.
 
     This class represents a data set publicly available on the Web.
     The class provides a link between the Web resource and the actual data set.
@@ -39,23 +39,18 @@ class Resource:
 
     @property
     def cache_path(self) -> pathlib.Path:
-        """
-        Path to data set in cache.
-        """
+        """Path to data set in cache."""
         cache_dir = pathlib.Path(".tengen_cache/")
         filename = f"{self.name}.nc"
         return cache_dir / filename
 
     @property
     def in_cache(self) -> bool:
-        """
-        ``True`` if the resource is in the cache, ``False`` otherwise.
-        """
+        """``True`` if the resource is in the cache, ``False`` otherwise."""
         return self.cache_path.exists()
 
     def fetch_from_web(self) -> xr.Dataset:
-        """
-        Fetch the data set from the Web.
+        """Fetch the data set from the Web.
 
         If the data set is not already in the cache, it is added to the cache.
 
@@ -69,9 +64,8 @@ class Resource:
             dataset.to_netcdf(self.cache_path)
         return dataset
 
-    def fetch_from_cache(self) -> xr.Dataset():
-        """
-        Fetch the data set from the cache.
+    def fetch_from_cache(self) -> xr.Dataset:
+        """Fetch the data set from the cache.
 
         Returns
         -------
@@ -79,13 +73,13 @@ class Resource:
             Data set.
         """
         if self.in_cache:
-            return xr.open_dataset(self.cache_path)
+            ds: xr.Dataset = xr.open_dataset(self.cache_path)  # type: ignore[no-untyped-call]
+            return ds
         else:
             raise ValueError("data set is not in the cache.")
 
-    def push_to_cache(self, force: t.Optional[bool] = False):
-        """
-        Save the data set in the cache.
+    def push_to_cache(self, force: t.Optional[bool] = False) -> None:
+        """Save the data set in the cache.
 
         If the data set is already in the cache, no action will be taken unless
         ``force=True`` is used.
@@ -101,8 +95,7 @@ class Resource:
             dataset.to_netcdf(self.cache_path)
 
     def get(self) -> xr.Dataset:
-        """
-        Get the data set.
+        """Get the data set.
 
         Try to fetch the resource from the Web.
         In case of a connection error, fetch from the cache.
@@ -128,6 +121,8 @@ class Resource:
 #                                Thuillier (2003)
 # ------------------------------------------------------------------------------
 
+THUILLIER_2003_URL = "https://oceancolor.gsfc.nasa.gov/docs/rsr/f0.txt"
+
 
 def transform_thuillier_2003(url: t.Union[str, t.List[str]]) -> xr.Dataset:
     """Transform function for Thuillier (2003).
@@ -145,7 +140,7 @@ def transform_thuillier_2003(url: t.Union[str, t.List[str]]) -> xr.Dataset:
     :class:`xarray.Dataset`
         Thuillier (2003) solar irradiance spectrum data set.
     """
-    response = requests.get(url)
+    response = requests.get(str(url))
     data = np.loadtxt(BytesIO(response.content), comments=["/", "!"])
     w = data[:, 0] * ureg.nm
     ssi = ureg.Quantity(data[:, 1], "microwatt/cm^2/nm")
@@ -153,7 +148,7 @@ def transform_thuillier_2003(url: t.Union[str, t.List[str]]) -> xr.Dataset:
     attrs = dict(
         title="Thuillier (2003) solar irradiance spectrum",
         institution=(
-            "Service d'Aéronomie du CNRS, F91371, Verrières-le-Buisson, France.",
+            "Service d'Aéronomie du CNRS, F91371, Verrières-le-Buisson, France."
         ),
         source=(
             "Combined observations from the SOLSPEC instrument during "
@@ -165,17 +160,17 @@ def transform_thuillier_2003(url: t.Union[str, t.List[str]]) -> xr.Dataset:
         references="https://doi.org/10.1023/A:1024048429145",
     )
 
-    return to_data_set(  # type: ignore
+    return to_data_set(
         w=w,
         ssi=ssi,
         attrs=attrs,
-        url=url,
+        url=str(url),
     )
 
 
 thuillier_2003 = Resource(
     name="thuillier_2003",
-    url="https://oceancolor.gsfc.nasa.gov/docs/rsr/f0.txt",
+    url=THUILLIER_2003_URL,
     transform=transform_thuillier_2003,
 )
 
@@ -184,7 +179,10 @@ thuillier_2003 = Resource(
 #                                WHI (2008)
 # ------------------------------------------------------------------------------
 
-WHI_2008_URL = "https://lasp.colorado.edu/lisird/resources/whi_ref_spectra/data/ref_solar_irradiance_whi-2008_ver2.dat"
+WHI_2008_URL = (
+    "https://lasp.colorado.edu/lisird/resources/whi_ref_spectra/data/"
+    "ref_solar_irradiance_whi-2008_ver2.dat"
+)
 
 WHI_2008_TIME_PERIOD = {
     "sunspot active": (datetime.date(2008, 3, 25), datetime.date(2008, 3, 29)),
@@ -234,6 +232,7 @@ def transform_whi_2008(
         return to_data_set(
             ssi=ureg.Quantity(data[mask, time_period], "W/m^2/nm"),
             w=ureg.Quantity(wavelength[mask], "nm"),
+            url=WHI_2008_URL,
             attrs=dict(
                 title=f"Whole Heliosphere Interval (WHI) solar "
                 f"irradiance reference spectrum (2008) for time p"
@@ -244,11 +243,9 @@ def transform_whi_2008(
                 f"instrument onboard a sounding rocket launched on "
                 f"2008-04-14.",
                 ref="https://doi.org/10.1029/2008GL036373",
-                url=(
-                    "https://lasp.colorado.edu/lisird/data/whi_ref_spectra",
-                    "2020-08-06",
+                observation_period=" to ".join(
+                    [x.strftime("%Y-%m-%d") for x in [start, end]]
                 ),
-                obs=(start, end),
                 comment="The original data covers the range from 0.05 to 2399.95 "
                 "nm, the present dataset includes only the part of the "
                 "original data where the wavelength > 116 nm.",
@@ -299,9 +296,8 @@ def transform_meftah_2018(url: t.Union[str, t.List[str]]) -> xr.Dataset:
     :class:`xarray.Dataset`
         Meftah (2018) solar irradiance spectrum data set.
     """
-
     filename = "spectrum.dat.gz"
-    with closing(request.urlopen(url)) as r:
+    with closing(request.urlopen(str(url))) as r:  # noqa: S310
         with open(filename, "wb") as f:
             shutil.copyfileobj(r, f)
 
@@ -353,7 +349,10 @@ meftah_2018 = Resource(
 # ------------------------------------------------------------------------------
 
 
-SOLID_2017_FTP_FOLDER = "ftp://ftp.pmodwrc.ch/pub/projects/SOLID/database/composite_published/SOLID_1978_published/"
+SOLID_2017_FTP_FOLDER = (
+    "ftp://ftp.pmodwrc.ch/pub/projects/SOLID/database/composite_published/"
+    "SOLID_1978_published/"
+)
 
 SOLID_2017_FILES = [
     "solid_0_100.nc",
@@ -399,13 +398,13 @@ def transform_solid_2017(url: t.Union[str, t.List[str]]) -> xr.Dataset:
     """
     filenames = []
     for x in url:
-        with closing(request.urlopen(x)) as r:
+        with closing(request.urlopen(x)) as r:  # noqa: S310
             filename = x.split("/")[-1]
             filenames.append(filename)
             with open(filename, "wb") as f:
                 shutil.copyfileobj(r, f)
 
-    ds = xr.open_mfdataset("solid_*.nc")
+    ds = xr.open_mfdataset("solid_*.nc")  # type: ignore[no-untyped-call]
 
     end = datetime.date(2014, 12, 31)
     start = end - datetime.timedelta(ds.time.size - 1)
@@ -428,8 +427,8 @@ def transform_solid_2017(url: t.Union[str, t.List[str]]) -> xr.Dataset:
         ),
     )
 
-    for f in filenames:
-        os.remove(f)
+    for filename in filenames:
+        os.remove(filename)
 
     return formatted
 
@@ -460,7 +459,7 @@ def transform_coddington_2021(url: t.Union[str, t.List[str]]) -> xr.Dataset:
     :class:`xarray.Dataset`
         Coddington (2021) solar irradiance spectrum data set.
     """
-    response = requests.get(url)
+    response = requests.get(str(url))
     raw = xr.open_dataset(BytesIO(response.content), engine="h5netcdf")  # type: ignore
     w = ureg.Quantity(raw["Vacuum Wavelength"].values, raw["Vacuum Wavelength"].units)
     ssi = ureg.Quantity(
@@ -469,14 +468,24 @@ def transform_coddington_2021(url: t.Union[str, t.List[str]]) -> xr.Dataset:
     attrs = dict(
         title="TSIS-1 Hybrid Solar Reference Spectrum (HSRS)",
         institution="Laboratory for Atmospheric and Space Physics",
-        source="TSIS-1 Spectral Irradiance Monitor (SIM), CubeSat Compact SIM (CSIM), Air Force Geophysical Laboratory ultraviolet solar irradiance balloon observations, ground-based Quality Assurance of Spectral Ultraviolet Measurements In Europe Fourier transform spectrometer solar irradiance observations, Kitt Peak National Observatory solar transmittance atlas and the semi-empirical Solar Pseudo-Transmittance Spectrum atlas.",
+        source=(
+            "TSIS-1 Spectral Irradiance Monitor (SIM), CubeSat Compact SIM "
+            "(CSIM), Air Force Geophysical Laboratory ultraviolet solar "
+            "irradiance balloon observations, ground-based Quality Assurance "
+            "of Spectral Ultraviolet Measurements In Europe Fourier transform "
+            "spectrometer solar irradiance observations, Kitt Peak National "
+            "Observatory solar transmittance atlas and the semi-empirical "
+            "Solar Pseudo-Transmittance Spectrum atlas."
+        ),
         references="https://doi.org/10.1029/2020GL091709",
     )
 
-    return to_data_set(w=w, ssi=ssi, attrs=attrs, url=url)
+    return to_data_set(w=w, ssi=ssi, attrs=attrs, url=str(url))
 
 
 class Coddington2021Resolution(enum.Enum):
+    """Coddington (2021) spectral resolution variant enumeration."""
+
     HIGH_RESOLUTION = ""
     ZP005 = "p005nm_resolution_"
     ZP025 = "p025nm_resolution_"
@@ -487,9 +496,16 @@ class Coddington2021Resolution(enum.Enum):
 def coddington_2021_url(
     resolution: Coddington2021Resolution = Coddington2021Resolution.HIGH_RESOLUTION,
 ) -> str:
+    """Get URL corresponding to Coddington (2021) spectral resolution variant.
 
-    root_url = "https://lasp.colorado.edu/lisird/resources/lasp/hsrs"
-    return f"{root_url}/hybrid_reference_spectrum_{resolution.value}c2021-03-04_with_unc.nc"
+    Parameters
+    ----------
+    resolution: Coddington2021Resolution
+        Coddington (2021) spectral resolution variant.
+    """
+    root_url = "https://lasp.colorado.edu/lisird/resources/lasp/hsrs/"
+    filename = f"hybrid_reference_spectrum_{resolution.value}c2021-03-04_with_unc.nc"
+    return f"{root_url}/{filename}"
 
 
 coddington_2021_high_resolution = Resource(

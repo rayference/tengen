@@ -10,10 +10,6 @@ from tengen.util import to_data_set
 
 
 def test_to_data_set() -> None:
-    pass
-
-
-def test_to_data_set() -> None:
     """Returns a data set."""
     ds = to_data_set(
         w=np.linspace(1, 2) * ureg.nm,

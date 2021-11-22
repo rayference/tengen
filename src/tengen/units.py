@@ -1,3 +1,4 @@
+"""Units module."""
 import re
 
 import pint
@@ -5,7 +6,7 @@ import pint
 ureg = pint.UnitRegistry()
 
 
-def format_missing_carats_units(s: str):
+def format_missing_carats_units(s: str) -> str:
     """Add missing carats to a malformed unit string.
 
     Will format a string 'm-1' to 'm^-1'.

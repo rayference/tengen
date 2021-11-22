@@ -1,3 +1,4 @@
+"""Utility module."""
 import datetime
 import typing as t
 
@@ -29,7 +30,7 @@ def to_data_set(
     w: pint.Quantity,
     url: str,
     t: t.Optional[pd.DatetimeIndex] = None,
-    attrs: t.Optional[t.MutableMapping[str, str]] = None,
+    attrs: t.Optional[t.Dict[str, str]] = None,
 ) -> xr.Dataset:
     """Make a data set from variables values.
 
@@ -55,14 +56,14 @@ def to_data_set(
     :class:`~xarray.Dataset`
         Solar irradiance spectrum data set.
     """
-    coords: t.Dict[t.Hashable, t.Any] = {"w": ("w", w.m_as("nm"), _W_ATTRS)}
+    coords = {"w": ("w", w.m_as("nm"), _W_ATTRS)}
 
     if t is not None:
         coords["t"] = ("t", t, _T_ATTRS)
-        data_vars: t.Dict[t.Hashable, t.Any] = {"ssi": (("t", "w"), ssi, _SSI_ATTRS)}
+        data_vars = {"ssi": (("t", "w"), ssi.m_as("W/m^2/nm"), _SSI_ATTRS)}
     else:
         coords["t"] = ("t", np.empty(0), _T_ATTRS)
-        data_vars = {"ssi": ("w", ssi.m_as("W/m^2/nm"), _SSI_ATTRS)}
+        data_vars = {"ssi": ("w", ssi.m_as("W/m^2/nm"), _SSI_ATTRS)}  # type: ignore[dict-item]
 
     utcnow = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -75,11 +76,14 @@ def to_data_set(
             references="unknown",
         )
 
-    attrs["history"] = f"{utcnow} - data set creation - tengen, version {__version__}"
+    attrs.update(
+        dict(
+            history=f"{utcnow} - data set creation - tengen, version {__version__}",
+            url=f"original data available at {url} (last accessed on {utcnow})",
+        )
+    )
 
-    attrs["url"] = f"original data available at {url} (last accessed on {utcnow})"
-
-    ds = xr.Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
+    ds = xr.Dataset(data_vars=data_vars, coords=coords, attrs=attrs)  # type: ignore[arg-type]
 
     # The time units cannot be added in 'attrs'
     # see https://github.com/pydata/xarray/issues/1324
