@@ -181,6 +181,108 @@ thuillier_2003 = Resource(
 
 
 # ------------------------------------------------------------------------------
+#                                WHI (2008)
+# ------------------------------------------------------------------------------
+
+WHI_2008_URL = "https://lasp.colorado.edu/lisird/resources/whi_ref_spectra/data/ref_solar_irradiance_whi-2008_ver2.dat"
+
+WHI_2008_TIME_PERIOD = {
+    "sunspot active": (datetime.date(2008, 3, 25), datetime.date(2008, 3, 29)),
+    "faculae active": (datetime.date(2008, 3, 29), datetime.date(2008, 4, 4)),
+    "quiet sun": (datetime.date(2008, 4, 10), datetime.date(2008, 4, 16)),
+}
+
+
+def transform_whi_2008(
+    identifier: str,
+) -> t.Callable[[t.Union[str, t.List[str]]], xr.Dataset]:
+    """Creates the WHI (2008) transform method.
+
+    .. list-table::
+       :widths: 1 1
+       :header-rows: 1
+
+       * - Time period
+         - File name
+       * - 2008-03-25 - 2008-03-29
+         - ``whi_2008_1``
+       * - 2008-03-29 - 2008-04-04
+         - ``whi_2008_2``
+       * - 2008-04-10 - 2008-04-16
+         - ``whi_2008_3``
+
+    Parameters
+    ----------
+    identifier: str
+        WHI (2008) spectrum variant identifier.
+
+    Returns
+    -------
+    callable
+        Associated transform method.
+    """
+
+    def f(url: t.Union[str, t.List[str]]):
+        r = requests.get(url)
+        data = np.loadtxt(fname=BytesIO(r.content), comments=";", skiprows=142)
+        wavelength = data[:, 0]
+        mask = wavelength > 116.0
+
+        time_period = WHI_2008_TIME_PERIOD[identifier]
+        start, end = time_period
+
+        return to_data_set(
+            ssi=ureg.Quantity(data[mask, time_period], "W/m^2/nm"),
+            w=ureg.Quantity(wavelength[mask], "nm"),
+            attrs=dict(
+                title=f"Whole Heliosphere Interval (WHI) solar "
+                f"irradiance reference spectrum (2008) for time p"
+                f"eriod {time_period} ('{identifier}' spectrum)",
+                source=f"Combination of satellite observations from "
+                f"the SEE and SORCE instruments (from {start} to {end}) "
+                f"onboard the TIMED satellite and a prototype EVE "
+                f"instrument onboard a sounding rocket launched on "
+                f"2008-04-14.",
+                ref="https://doi.org/10.1029/2008GL036373",
+                url=(
+                    "https://lasp.colorado.edu/lisird/data/whi_ref_spectra",
+                    "2020-08-06",
+                ),
+                obs=(start, end),
+                comment="The original data covers the range from 0.05 to 2399.95 "
+                "nm, the present dataset includes only the part of the "
+                "original data where the wavelength > 116 nm.",
+            ),
+        )
+
+    return f
+
+
+whi_2008_sunspot_active = Resource(
+    name="whi_2008_sunspot_active",
+    url=WHI_2008_URL,
+    transform=transform_whi_2008(identifier="sunspot active"),
+)
+
+whi_2008_faculae_active = Resource(
+    name="whi_2008_faculae_active",
+    url=WHI_2008_URL,
+    transform=transform_whi_2008(identifier="faculae active"),
+)
+
+whi_2008_quiet_sun = Resource(
+    name="whi_2008_quiet_sun",
+    url=WHI_2008_URL,
+    transform=transform_whi_2008(identifier="quiet sun"),
+)
+
+# ------------------------------------------------------------------------------
+#                                Meftah (2017)
+# ------------------------------------------------------------------------------
+
+""
+
+# ------------------------------------------------------------------------------
 #                                SOLID (2017)
 # ------------------------------------------------------------------------------
 
