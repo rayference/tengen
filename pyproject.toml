@@ -34,7 +34,7 @@ Pygments = "^2.9.0"
 black = "^21.12b0"
 coverage = {extras = ["toml"], version = "^5.4"}
 darglint = "^1.8.0"
-flake8 = "^3.9.2"
+flake8 = "^4.0.1"
 flake8-bandit = "^2.1.2"
 flake8-bugbear = "^21.4.3"
 flake8-docstrings = "^1.6.0"
