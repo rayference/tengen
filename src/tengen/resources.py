@@ -78,22 +78,6 @@ class Resource:
         else:
             raise ValueError("data set is not in the cache.")
 
-    def push_to_cache(self, force: t.Optional[bool] = False) -> None:
-        """Save the data set in the cache.
-
-        If the data set is already in the cache, no action will be taken unless
-        ``force=True`` is used.
-
-        Parameters
-        ----------
-        force: bool, optional
-            If ``True``, override the data set if it is already in the cache.
-
-        """
-        if force is True or not self.in_cache:
-            dataset = self.fetch_from_web()
-            dataset.to_netcdf(self.cache_path)
-
     def get(self) -> xr.Dataset:
         """Get the data set.
 
@@ -107,14 +91,14 @@ class Resource:
         """
         try:
             return self.fetch_from_web()
-        except requests.ConnectionError:
+        except requests.ConnectionError as e:
             if self.in_cache:
                 return self.fetch_from_cache()
             else:
                 raise ValueError(
                     "could not fetch data set from the Web and could not fetch "
                     "from the cache because data set is in not in the cache"
-                )
+                ) from e
 
 
 # ------------------------------------------------------------------------------
