@@ -84,6 +84,15 @@ class Resource:
         Try to fetch the resource from the Web.
         In case of a connection error, fetch from the cache.
 
+        Raises
+        ------
+        ValueError
+            If the data set could not be fetched neither from the Web
+            nor from the cache.
+            This can happen for example when the data set could not fetched
+            from the Web due to a connection error with a cache that does
+            not already include the data set.
+
         Returns
         -------
         :class:`~xarray.Dataset`:
@@ -213,8 +222,10 @@ def transform_whi_2008(
         time_period = WHI_2008_TIME_PERIOD[identifier]
         start, end = time_period
 
+        time_period_index = list(WHI_2008_TIME_PERIOD.keys()).index(identifier)
+
         return to_data_set(
-            ssi=ureg.Quantity(data[mask, time_period], "W/m^2/nm"),
+            ssi=ureg.Quantity(data[mask, time_period_index], "W/m^2/nm"),
             w=ureg.Quantity(wavelength[mask], "nm"),
             url=WHI_2008_URL,
             attrs=dict(
