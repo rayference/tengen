@@ -38,27 +38,24 @@ def test_resource() -> Resource:
 
 def test_resource_fetch_from_web(test_resource: Resource) -> None:
     """Returns a Dataset."""
-    ds = test_resource.fetch_from_web()
-    ds.close()
-    assert isinstance(ds, xr.Dataset)
+    with test_resource.fetch_from_web() as ds:
+        assert isinstance(ds, xr.Dataset)
 
 
 def test_resource_fetch_from_web_writes_to_cache(test_resource: Resource) -> None:
     """Dataset is written to cache."""
     remove_cache()
     init_cache()
-    ds = test_resource.fetch_from_web()
-    ds.close()
-    assert test_resource.in_cache
+    with test_resource.fetch_from_web() as ds:
+        assert test_resource.in_cache
 
 
 def test_resource_fetch_from_cache(test_resource: Resource) -> None:
     """Returns a Dataset."""
     ds = test_resource.fetch_from_web()  # populate the cache
     ds.close()
-    ds = test_resource.fetch_from_cache()
-    ds.close()
-    assert isinstance(ds, xr.Dataset)
+    with test_resource.fetch_from_cache() as ds:
+        assert isinstance(ds, xr.Dataset)
 
 
 def test_resource_fetch_from_cache_raise(test_resource: Resource) -> None:
@@ -84,9 +81,8 @@ def test_resources_get_connection_error_in_cache(
     ds = test_resource.fetch_from_web()  # populate cache
     ds.close()
     monkeypatch.setattr("requests.get", MockConnectionError)
-    ds = test_resource.get()
-    ds.close()
-    assert isinstance(ds, xr.Dataset)
+    with test_resource.get() as ds:
+        assert isinstance(ds, xr.Dataset)
 
 
 def test_resources_get_connection_error_not_in_cache(
@@ -107,9 +103,8 @@ def test_resources_get_connection_error_not_in_cache(
 
 def test_transform_thuillier_2003() -> None:
     """Returns a Dataset."""
-    ds = transform_thuillier_2003(url=THUILLIER_2003_URL)
-    ds.close()
-    assert isinstance(ds, xr.Dataset)
+    with transform_thuillier_2003(url=THUILLIER_2003_URL) as ds:
+        assert isinstance(ds, xr.Dataset)
 
 
 # ------------------------------------------------------------------------------
@@ -163,6 +158,5 @@ def test_coddington_2021_url(resolution: Coddington2021Resolution) -> None:
 )
 def test_transform_coddington_2021(url: str) -> None:
     """Returns a Dataset."""
-    ds = transform_coddington_2021(url=url)
-    ds.close()
-    assert isinstance(ds, xr.Dataset)
+    with transform_coddington_2021(url=url) as ds:
+        assert isinstance(ds, xr.Dataset)
