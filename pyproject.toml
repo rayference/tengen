@@ -51,7 +51,7 @@ reorder-python-imports = "^2.5.0"
 safety = "^1.10.3"
 sphinx = "^4.0.2"
 sphinx-autobuild = "^2021.3.14"
-sphinx-click = "^3.0.1"
+sphinx-click = "^3.0.2"
 sphinx-rtd-theme = "^0.5.2"
 typeguard = "^2.12.1"
 xdoctest = {extras = ["colors"], version = "^0.15.4"}
@@ -59,6 +59,11 @@ xdoctest = {extras = ["colors"], version = "^0.15.4"}
 [tool.poetry.scripts]
 tengen = "tengen.__main__:main"
 
+[tool.pytest.ini_options]
+markers = [
+  "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+  "serial",
+]
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
 
