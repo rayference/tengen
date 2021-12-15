@@ -73,8 +73,8 @@ class Resource:
             Data set.
         """
         if self.in_cache:
-            ds: xr.Dataset = xr.open_dataset(self.cache_path)  # type: ignore[no-untyped-call]
-            return ds
+            ds = xr.open_dataset(self.cache_path)  # type: ignore[no-untyped-call]
+            return ds  # type: ignore[no-any-return]
         else:
             raise ValueError("data set is not in the cache.")
 

@@ -4,29 +4,29 @@ import typing as t
 import pytest
 import requests
 import xarray as xr
-from tengen.cache import init_cache, remove_cache
-from tengen.resources import (
-    MEFTAH_2018_URL,
-    SOLID_2017_URL,
-    THUILLIER_2003_URL,
-    WHI_2008_URL,
-    Coddington2021Resolution,
-    Resource,
-    coddington_2021_url,
-    transform_coddington_2021,
-    transform_meftah_2018,
-    transform_solid_2017,
-    transform_thuillier_2003,
-    transform_whi_2008,
-)
+
+from tengen.cache import init_cache
+from tengen.cache import remove_cache
+from tengen.resources import Coddington2021Resolution
+from tengen.resources import coddington_2021_url
+from tengen.resources import MEFTAH_2018_URL
+from tengen.resources import Resource
+from tengen.resources import SOLID_2017_URL
+from tengen.resources import THUILLIER_2003_URL
+from tengen.resources import transform_coddington_2021
+from tengen.resources import transform_meftah_2018
+from tengen.resources import transform_solid_2017
+from tengen.resources import transform_thuillier_2003
+from tengen.resources import transform_whi_2008
+from tengen.resources import WHI_2008_URL
 
 
 @pytest.fixture
 def test_resource() -> Resource:
     """Resource fixture."""
 
-    def transform(url: str):
-        r = requests.get(url)
+    def transform(url: t.Union[str, t.List[str]]) -> xr.Dataset:
+        _ = requests.get(url)
         return xr.Dataset()
 
     return Resource(
@@ -73,6 +73,7 @@ class MockConnectionError:
     """ConnectionError mock."""
 
     def __init__(self, *args: t.Any, **kwargs: t.Any) -> None:
+        """Initialise."""
         raise requests.exceptions.ConnectionError
 
 
@@ -118,7 +119,7 @@ def test_transform_thuillier_2003() -> None:
 
 def test_transform_whi_2008() -> None:
     """Returns a Dataset."""
-    with transform_whi_2008(identifier="sunspot active")(url=WHI_2008_URL) as ds:
+    with transform_whi_2008(identifier="sunspot active")(WHI_2008_URL) as ds:
         assert isinstance(ds, xr.Dataset)
 
 

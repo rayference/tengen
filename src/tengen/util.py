@@ -63,7 +63,9 @@ def to_data_set(
         data_vars = {"ssi": (("t", "w"), ssi.m_as("W/m^2/nm"), _SSI_ATTRS)}
     else:
         coords["t"] = ("t", np.empty(0), _T_ATTRS)
-        data_vars = {"ssi": ("w", ssi.m_as("W/m^2/nm"), _SSI_ATTRS)}  # type: ignore[dict-item]
+        data_vars = {
+            "ssi": ("w", ssi.m_as("W/m^2/nm"), _SSI_ATTRS),  # type: ignore[dict-item]
+        }
 
     utcnow = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -83,7 +85,11 @@ def to_data_set(
         )
     )
 
-    ds = xr.Dataset(data_vars=data_vars, coords=coords, attrs=attrs)  # type: ignore[arg-type]
+    ds = xr.Dataset(
+        data_vars=data_vars,  # type: ignore[arg-type]
+        coords=coords,  # type: ignore[arg-type]
+        attrs=attrs,  # type: ignore[arg-type]
+    )
 
     # The time units cannot be added in 'attrs'
     # see https://github.com/pydata/xarray/issues/1324
