@@ -134,7 +134,10 @@ def transform_thuillier_2003(url: t.Union[str, t.List[str]]) -> xr.Dataset:
         Thuillier (2003) solar irradiance spectrum data set.
     """
     response = requests.get(str(url))
-    data = np.loadtxt(BytesIO(response.content), comments=["/", "!"])
+    data = np.loadtxt(  # type: ignore[no-untyped-call]
+        fname=BytesIO(response.content),
+        comments=["/", "!"],
+    )
     w = data[:, 0] * ureg.nm
     ssi = ureg.Quantity(data[:, 1], "microwatt/cm^2/nm")
 
@@ -215,7 +218,11 @@ def transform_whi_2008(
 
     def f(url: t.Union[str, t.List[str]]) -> xr.Dataset:
         r = requests.get(url)
-        data = np.loadtxt(fname=BytesIO(r.content), comments=";", skiprows=142)
+        data = np.loadtxt(  # type: ignore[no-untyped-call]
+            fname=BytesIO(r.content),
+            comments=";",
+            skiprows=142,
+        )
         wavelength = data[:, 0]
         mask = wavelength > 116.0
 
@@ -296,7 +303,11 @@ def transform_meftah_2018(url: t.Union[str, t.List[str]]) -> xr.Dataset:
         with open(filename, "wb") as f:
             shutil.copyfileobj(r, f)
 
-    data = np.genfromtxt(fname=filename, missing_values="---", filling_values=np.nan)
+    data = np.genfromtxt(  # type: ignore[no-untyped-call]
+        fname=filename,
+        missing_values="---",
+        filling_values=np.nan,
+    )
 
     wavelength = data[:, 0]
     spectral_irradiance = data[:, 1]

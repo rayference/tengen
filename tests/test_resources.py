@@ -46,7 +46,7 @@ def test_resource_fetch_from_web_writes_to_cache(test_resource: Resource) -> Non
     """Dataset is written to cache."""
     remove_cache()
     init_cache()
-    with test_resource.fetch_from_web() as ds:
+    with test_resource.fetch_from_web() as _:
         assert test_resource.in_cache
 
 
