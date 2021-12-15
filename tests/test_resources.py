@@ -4,14 +4,21 @@ import typing as t
 import pytest
 import requests
 import xarray as xr
-
-from tengen.resources import Coddington2021Resolution
-from tengen.resources import coddington_2021_url
-from tengen.resources import THUILLIER_2003_URL
-from tengen.resources import transform_coddington_2021
-from tengen.resources import transform_thuillier_2003
-from tengen.resources import Resource
-from tengen.cache import remove_cache, init_cache, list_cache_content
+from tengen.cache import init_cache, remove_cache
+from tengen.resources import (
+    MEFTAH_2018_URL,
+    SOLID_2017_URL,
+    THUILLIER_2003_URL,
+    WHI_2008_URL,
+    Coddington2021Resolution,
+    Resource,
+    coddington_2021_url,
+    transform_coddington_2021,
+    transform_meftah_2018,
+    transform_solid_2017,
+    transform_thuillier_2003,
+    transform_whi_2008,
+)
 
 
 @pytest.fixture
@@ -72,13 +79,29 @@ class MockConnectionError:
 def test_resources_get_connection_error_in_cache(
     monkeypatch: pytest.MonkeyPatch, test_resource: Resource
 ) -> None:
-    """ """
+    """Fetch from cache if connection error."""
     ds = test_resource.fetch_from_web()  # populate cache
     ds.close()
     monkeypatch.setattr("requests.get", MockConnectionError)
     ds = test_resource.get()
     ds.close()
     assert isinstance(ds, xr.Dataset)
+
+
+def test_resources_get_connection_error_not_in_cache(
+    monkeypatch: pytest.MonkeyPatch, test_resource: Resource
+) -> None:
+    """Raises ValueError when dataset could not be fetched from web nor cache."""
+    remove_cache()  # cache is empty
+    init_cache()
+    monkeypatch.setattr("requests.get", MockConnectionError)
+    with pytest.raises(ValueError):
+        test_resource.get()
+
+
+# ------------------------------------------------------------------------------
+#                                Thuillier (2003)
+# ------------------------------------------------------------------------------
 
 
 def test_transform_thuillier_2003() -> None:
@@ -88,12 +111,52 @@ def test_transform_thuillier_2003() -> None:
     assert isinstance(ds, xr.Dataset)
 
 
+# ------------------------------------------------------------------------------
+#                                WHI (2008)
+# ------------------------------------------------------------------------------
+
+
+def test_transform_whi_2008() -> None:
+    """Returns a Dataset."""
+    with transform_whi_2008(identifier="sunspot active")(url=WHI_2008_URL) as ds:
+        assert isinstance(ds, xr.Dataset)
+
+
+# ------------------------------------------------------------------------------
+#                                Meftah (2017)
+# ------------------------------------------------------------------------------
+
+
+def test_transform_meftah_2018() -> None:
+    """Returns a Dataset."""
+    with transform_meftah_2018(url=MEFTAH_2018_URL) as ds:
+        assert isinstance(ds, xr.Dataset)
+
+
+# ------------------------------------------------------------------------------
+#                                SOLID (2017)
+# ------------------------------------------------------------------------------
+
+
+@pytest.mark.slow
+def test_transform_solid_2017() -> None:
+    """Returns a Dataset."""
+    with transform_solid_2017(url=SOLID_2017_URL) as ds:
+        assert isinstance(ds, xr.Dataset)
+
+
+# ------------------------------------------------------------------------------
+#                                Coddington (2021)
+# ------------------------------------------------------------------------------
+
+
 @pytest.mark.parametrize("resolution", [x for x in Coddington2021Resolution])
 def test_coddington_2021_url(resolution: Coddington2021Resolution) -> None:
     """Returns a str."""
     assert isinstance(coddington_2021_url(resolution), str)
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize(
     "url", [coddington_2021_url(x) for x in Coddington2021Resolution]
 )
