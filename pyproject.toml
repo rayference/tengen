@@ -1,7 +1,6 @@
 [tool.poetry]
 authors = ["Yvan Nollet <yvan.nollet@rayference.eu>"]
 classifiers = [
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
 ]
@@ -18,43 +17,43 @@ version = "0.1.1"
 Changelog = "https://github.com/nollety/tengen/releases"
 
 [tool.poetry.dependencies]
-Pint = "^0.17"
-click = "^8.0.1"
-dask = "^2021.11.2"
-h5netcdf = "^0.11.0"
-netCDF4 = "^1.5.7"
-numpy = "^1.20.3"
-pandas = "^1.2.4"
-python = "^3.7.1"
-requests = "^2.25.1"
-xarray = "^0.18.2"
+Pint = ">=0.17"
+click = ">=8.0.1"
+dask = ">=2021.11.2"
+h5netcdf = ">=0.11.0"
+netCDF4 = ">=1.5.7"
+numpy = ">=1.20.3"
+pandas = ">=1.2.4"
+python = ">=3.8,<3.10"
+requests = ">=2.25.1"
+xarray = ">=0.18.2"
 
 [tool.poetry.dev-dependencies]
-Pygments = "^2.9.0"
-black = "^21.12b0"
-coverage = {extras = ["toml"], version = "^5.4"}
-darglint = "^1.8.0"
-flake8 = "^3.9.2"
-flake8-bandit = "^2.1.2"
-flake8-bugbear = "^21.4.3"
-flake8-docstrings = "^1.6.0"
-flake8-rst-docstrings = "^0.2.3"
-ipykernel = "^5.5.5"
-jupyterlab = "^3.2.4"
-matplotlib = "^3.5.0"
-mypy = "^0.902"
-pep8-naming = "^0.11.1"
-pre-commit = "^2.13.0"
-pre-commit-hooks = "^4.0.1"
-pytest = "^6.2.4"
-reorder-python-imports = "^2.5.0"
-safety = "^1.10.3"
-sphinx = "^4.0.2"
-sphinx-autobuild = "^2021.3.14"
-sphinx-click = "^3.0.1"
-sphinx-rtd-theme = "^0.5.2"
-typeguard = "^2.12.1"
-xdoctest = {extras = ["colors"], version = "^0.15.4"}
+Pygments = ">=2.9.0"
+black = ">=21.12b0"
+coverage = {extras = ["toml"], version = ">=5.4"}
+darglint = ">=1.8.0"
+flake8 = ">=3.9.2"
+flake8-bandit = ">=2.1.2"
+flake8-bugbear = ">=21.4.3"
+flake8-docstrings = ">=1.6.0"
+flake8-rst-docstrings = ">=0.2.3"
+ipykernel = ">=5.5.5"
+jupyterlab = ">=3.2.4"
+matplotlib = ">=3.5.0"
+mypy = ">=0.902"
+pep8-naming = ">=0.11.1"
+pre-commit = ">=2.13.0"
+pre-commit-hooks = ">=4.0.1"
+pytest = ">=6.2.4"
+reorder-python-imports = ">=2.5.0"
+safety = ">=1.10.3"
+sphinx = ">=4.0.2"
+sphinx-autobuild = ">=2021.3.14"
+sphinx-click = ">=3.0.1"
+sphinx-rtd-theme = ">=0.5.2"
+typeguard = ">=2.12.1"
+xdoctest = {extras = ["colors"], version = ">=0.15.4"}
 
 [tool.poetry.scripts]
 tengen = "tengen.__main__:main"
