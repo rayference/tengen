@@ -134,7 +134,7 @@ def transform_thuillier_2003(url: t.Union[str, t.List[str]]) -> xr.Dataset:
         Thuillier (2003) solar irradiance spectrum data set.
     """
     response = requests.get(str(url))
-    data = np.loadtxt(  # type: ignore[no-untyped-call]
+    data = np.loadtxt(
         fname=BytesIO(response.content),
         comments=["/", "!"],
     )
@@ -218,7 +218,7 @@ def transform_whi_2008(
 
     def f(url: t.Union[str, t.List[str]]) -> xr.Dataset:
         r = requests.get(url)
-        data = np.loadtxt(  # type: ignore[no-untyped-call]
+        data = np.loadtxt(
             fname=BytesIO(r.content),
             comments=";",
             skiprows=142,
@@ -303,7 +303,7 @@ def transform_meftah_2018(url: t.Union[str, t.List[str]]) -> xr.Dataset:
         with open(filename, "wb") as f:
             shutil.copyfileobj(r, f)
 
-    data = np.genfromtxt(  # type: ignore[no-untyped-call]
+    data = np.genfromtxt(
         fname=filename,
         missing_values="---",
         filling_values=np.nan,

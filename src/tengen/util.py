@@ -26,8 +26,8 @@ _T_ATTRS = {"standard_name": "time", "long_name": "time"}
 
 
 def to_data_set(
-    ssi: pint.Quantity,
-    w: pint.Quantity,
+    ssi: pint.Quantity,  # type:ignore
+    w: pint.Quantity,  # type:ignore
     url: str,
     t: t.Optional[pd.DatetimeIndex] = None,
     attrs: t.Optional[t.Dict[str, str]] = None,
@@ -86,9 +86,9 @@ def to_data_set(
     )
 
     ds = xr.Dataset(
-        data_vars=data_vars,  # type: ignore[arg-type]
-        coords=coords,  # type: ignore[arg-type]
-        attrs=attrs,  # type: ignore[arg-type]
+        data_vars=data_vars,
+        coords=coords,
+        attrs=attrs,
     )
 
     # The time units cannot be added in 'attrs'
