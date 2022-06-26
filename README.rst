@@ -1,14 +1,14 @@
 Tengen
 ======
 
-|Python Version| |License|
+|Release| |License|
 
 |Read the Docs| |Tests| |Codecov|
 
 |pre-commit| |Black|
 
 
-.. |Python Version| image:: https://img.shields.io/github/v/release/nollety/tengen
+.. |Release| image:: https://img.shields.io/github/v/release/nollety/tengen
    :alt: Python Version
 .. |License| image:: https://img.shields.io/pypi/l/tengen
    :target: https://opensource.org/licenses/MIT
