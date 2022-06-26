@@ -45,11 +45,13 @@ Requirements
 Installation
 ------------
 
-You can install *Tengen* via pip_ from PyPI_:
+You can install *Tengen* via pip_:
 
 .. code:: console
 
-   $ pip install tengen
+   $ git clone https://github.com/nollety/tengen.git
+   $ cd tengen
+   $ pip install --editable .
 
 
 Usage
