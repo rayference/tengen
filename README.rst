@@ -1,15 +1,13 @@
 Tengen
 ======
 
-|PyPI| |Python Version| |License|
+|Python Version| |License|
 
 |Read the Docs| |Tests| |Codecov|
 
 |pre-commit| |Black|
 
-.. |PyPI| image:: https://img.shields.io/pypi/v/tengen.svg
-   :target: https://pypi.org/project/tengen/
-   :alt: PyPI
+
 .. |Python Version| image:: https://img.shields.io/github/v/release/nollety/tengen
    :alt: Python Version
 .. |License| image:: https://img.shields.io/pypi/l/tengen
