@@ -39,7 +39,7 @@ Features
 Requirements
 ------------
 
-* TODO
+* Python >= 3.8
 
 
 Installation
