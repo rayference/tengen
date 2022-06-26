@@ -10,7 +10,7 @@ Tengen
 
 .. |Release| image:: https://img.shields.io/github/v/release/nollety/tengen
    :alt: Python Version
-.. |License| image:: https://img.shields.io/pypi/l/tengen
+.. |License| image:: https://img.shields.io/github/license/nollety/tengen
    :target: https://opensource.org/licenses/MIT
    :alt: License
 .. |Read the Docs| image:: https://img.shields.io/readthedocs/tengen/latest.svg?label=Read%20the%20Docs
