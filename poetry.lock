@@ -577,7 +577,7 @@ gitdb = ">=4.0.1,<5"
 
 [[package]]
 name = "h5netcdf"
-version = "1.0.0"
+version = "1.0.1"
 description = "netCDF4 via h5py"
 category = "main"
 optional = false
@@ -2462,8 +2462,8 @@ gitpython = [
     {file = "GitPython-3.1.27.tar.gz", hash = "sha256:1c885ce809e8ba2d88a29befeb385fcea06338d3640712b59ca623c220bb5704"},
 ]
 h5netcdf = [
-    {file = "h5netcdf-1.0.0-py2.py3-none-any.whl", hash = "sha256:97c619b3e199d2b799bbf97e03387c68787ffbdef910c924d0fd36037680108f"},
-    {file = "h5netcdf-1.0.0.tar.gz", hash = "sha256:4bf07ac545e6e4ee372a8505ffcee5c83f2db8b9a5c4a510b9336d92c3d50fa6"},
+    {file = "h5netcdf-1.0.1-py2.py3-none-any.whl", hash = "sha256:4a4762dbfcec871c43455e3b3ae599d2ecbf7a3698069fd73f511d0038676ccc"},
+    {file = "h5netcdf-1.0.1.tar.gz", hash = "sha256:776704facd8b82246d6d4068c505c389b3b70b9bf9920ccfbac7f35cdc634dac"},
 ]
 h5py = [
     {file = "h5py-3.7.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d77af42cb751ad6cc44f11bae73075a07429a5cf2094dfde2b1e716e059b3911"},
@@ -2760,6 +2760,8 @@ netcdf4 = [
     {file = "netCDF4-1.6.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:134661e230c12676431b78f3acf5d20df73e16648f9c27edb32ef98a7df49f06"},
     {file = "netCDF4-1.6.0-cp310-cp310-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:5b834b2f035cf6323f605b7d40dca501bc666825d58514313bb9f92c64d09ea3"},
     {file = "netCDF4-1.6.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7aea5661b2288d3ff13796ad94e35de9282004b38b79b4ea145210d0f0fb694f"},
+    {file = "netCDF4-1.6.0-cp310-cp310-win32.whl", hash = "sha256:b4b8cfa01b77feab961109edeb4474c9b65f88d5f375cac293b6ebaa2d5e8b7f"},
+    {file = "netCDF4-1.6.0-cp310-cp310-win_amd64.whl", hash = "sha256:c36f744d68c985ca1613d1e55d56fc8bd24df4e1d3cfb3e9f7ee3c3263ea60a2"},
     {file = "netCDF4-1.6.0-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c30715f5a41ac974ff848b282f9d55a7c5127cfeade00019b099312236bec529"},
     {file = "netCDF4-1.6.0-cp36-cp36m-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:f6ccd91a523d923a7d76f137db9cf86b1d180ef8ff948b468768671941063ca0"},
     {file = "netCDF4-1.6.0-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8cb157bf7a0ffaab2ad2a7f7ccb824d91c30ded5196eae39fba90e806d9800e3"},
@@ -2771,11 +2773,15 @@ netcdf4 = [
     {file = "netCDF4-1.6.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ab83d3ce100a5cbdb631ae572c01f0e19d1f3cfae9cc2ead0490cfea941875e5"},
     {file = "netCDF4-1.6.0-cp38-cp38-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:e3d02c8a171091a8b86064dd95db583e0edec7447eba639e7a0eddb608d9fdc6"},
     {file = "netCDF4-1.6.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e055e1e7dcd62b3369786d6be80de5603f4f76a20408e6939695ed8340c5a5b3"},
+    {file = "netCDF4-1.6.0-cp38-cp38-win32.whl", hash = "sha256:680d4e7079721789d6d2e88b245c6ee37838774c4241ee0406dbba6959fbd3c8"},
+    {file = "netCDF4-1.6.0-cp38-cp38-win_amd64.whl", hash = "sha256:35cad527a95c3afd202df07e2909186283619c39d6102e048f511e454ce2a5e7"},
     {file = "netCDF4-1.6.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:396266a4e91dc26006cb19e6d132bb22de320e52da2ba62ed81ed6791538834b"},
     {file = "netCDF4-1.6.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:7f6cb8de2907c041689e9b08b8a73d1d242c2e77f9f30c9ffe096bd589740b71"},
     {file = "netCDF4-1.6.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:98d716a63a147961948a35cd383f2d723855d63cb15cf5b827b3f8f2bf269820"},
     {file = "netCDF4-1.6.0-cp39-cp39-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:018bda7badd7dd1c228d3edf1fab46c228333678d3b60e79d8a83caeffd90577"},
     {file = "netCDF4-1.6.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d8df3d61d3f4e850fe94d14fa86e4a67ebf3dbee73bc8ae35bc5c6881d430a91"},
+    {file = "netCDF4-1.6.0-cp39-cp39-win32.whl", hash = "sha256:9afbd3e22e6ffeb6e2d51c8de17debbfa4e0ce04aa31850c13accf41ad4a6637"},
+    {file = "netCDF4-1.6.0-cp39-cp39-win_amd64.whl", hash = "sha256:885c6a5e953afe4e6f929f3de2ab92caa1933c394bac70dd38c948a994065f6d"},
     {file = "netCDF4-1.6.0.tar.gz", hash = "sha256:95efa373d9a3e1cd0df7193e76e6680d9eca28e60097ca8139afea8a4346ba63"},
 ]
 nodeenv = [
@@ -3178,6 +3184,10 @@ restructuredtext-lint = [
     {file = "ruamel.yaml-0.17.21.tar.gz", hash = "sha256:8b7ce697a2f212752a35c1ac414471dc16c424c9573be4926b56ff3f5d23b7af"},
 ]
 "ruamel.yaml.clib" = [
+    {file = "ruamel.yaml.clib-0.2.6-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:6e7be2c5bcb297f5b82fee9c665eb2eb7001d1050deaba8471842979293a80b0"},
+    {file = "ruamel.yaml.clib-0.2.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:221eca6f35076c6ae472a531afa1c223b9c29377e62936f61bc8e6e8bdc5f9e7"},
+    {file = "ruamel.yaml.clib-0.2.6-cp310-cp310-win32.whl", hash = "sha256:1070ba9dd7f9370d0513d649420c3b362ac2d687fe78c6e888f5b12bf8bc7bee"},
+    {file = "ruamel.yaml.clib-0.2.6-cp310-cp310-win_amd64.whl", hash = "sha256:77df077d32921ad46f34816a9a16e6356d8100374579bc35e15bab5d4e9377de"},
     {file = "ruamel.yaml.clib-0.2.6-cp35-cp35m-macosx_10_6_intel.whl", hash = "sha256:cfdb9389d888c5b74af297e51ce357b800dd844898af9d4a547ffc143fa56751"},
     {file = "ruamel.yaml.clib-0.2.6-cp35-cp35m-manylinux1_x86_64.whl", hash = "sha256:7b2927e92feb51d830f531de4ccb11b320255ee95e791022555971c466af4527"},
     {file = "ruamel.yaml.clib-0.2.6-cp35-cp35m-win32.whl", hash = "sha256:ada3f400d9923a190ea8b59c8f60680c4ef8a4b0dfae134d2f2ff68429adfab5"},
