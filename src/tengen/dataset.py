@@ -31,7 +31,7 @@ ATTRS = {
 def to_dataset(
     ssi: pint.Quantity,
     w: pint.Quantity,
-    url: str,
+    data_url: str,
     t: t.Optional[pd.DatetimeIndex] = None,
     attrs: t.Optional[t.Dict[str, str]] = None,
 ) -> xr.Dataset:
@@ -40,7 +40,7 @@ def to_dataset(
     Args:
         ssi: solar spectral irradiance.
         w: radiation wavelength.
-        url: raw data url.
+        data_url: raw data url.
         t: time stamps.
         attrs: dataset attributes.
 
@@ -77,10 +77,11 @@ def to_dataset(
 
     author = f"tengen, version {__version__}"
     _attrs.update(
-        dict(
-            history=f"{utcnow} - data set creation by {author}",
-            url=f"raw data available at {url} (last accessed on {utcnow})",
-        )
+        {
+            "history": f"{utcnow} - data set creation by {author}",
+            "data_url": data_url,
+            "data_url_datetime": utcnow,
+        }
     )
 
     # Create data set
