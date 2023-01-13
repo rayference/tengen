@@ -1,6 +1,7 @@
 # Tengen
 
 [![pdm-managed](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm.fming.dev)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/nollety/tengen)
 
 Collection of notebooks to manage reference solar irradiance spectrum datasets.
 
