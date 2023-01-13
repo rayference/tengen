@@ -1,5 +1,5 @@
 """Test cases for the cache module."""
-from tengen.cache import CACHE_DIR
+from tengen.cache import TENGEN_CACHE_DIR
 from tengen.cache import init_cache
 from tengen.cache import list_cache_content
 
@@ -7,7 +7,7 @@ from tengen.cache import list_cache_content
 def test_init_cache() -> None:
     """Cache directory exists after 'init_cache' is called."""
     init_cache()
-    assert CACHE_DIR.exists()
+    assert TENGEN_CACHE_DIR.exists()
 
 
 def test_list_cache_content() -> None:
