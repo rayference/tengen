@@ -16,6 +16,7 @@ dependencies = [
     "nbstripout>=0.6.1",
     "nbconvert>=7.2.8",
     "jupyterlab>=3.5.2",
+    "matplotlib>=3.6.3",
 ]
 requires-python = ">=3.8"
 license = {text = "MIT"}
