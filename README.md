@@ -52,10 +52,17 @@ To generate the dataset(s), run the corresponding notebook(s).
 
 #### Run from the command line
 
-You can run a notebook from the command line, [using the `nbconvert` library](https://nbconvert.readthedocs.io/en/latest/execute_api.html#executing-notebooks-from-the-command-line). For example, the `whi_2008.ipynb` notebook is executed with:
+You can run a notebook from the command line, [using the `nbconvert` library](https://nbconvert.readthedocs.io/en/latest/execute_api.html#executing-notebooks-from-the-command-line).
+For example, the `whi_2008.ipynb` notebook is executed with:
 
 ```shell
 jupyter nbconvert --to notebook --execute notebooks/whi_2008.ipynb
+```
+
+Run all notebooks with:
+
+```shell
+jupyter nbconvert --to notebook --execute notebooks/*.ipynb
 ```
 
 
@@ -69,6 +76,14 @@ Each notebook follows a template defined by `notebooks/tempplate.ipynb`. A noteb
 
 To write a new notebook, begin by copying the template and modify it to 
 provide the required information and methods implementation.
+In case of doubt, take example on existing notebooks.
+
+Before pushing your notebook to the repository, make sure to run `nbstripout`
+on it to remove cells outputs:
+
+```shell
+nbstripout notebooks/your_notebook.ipynb
+```
 
 
 ## Dataset format and schema
