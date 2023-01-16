@@ -14,6 +14,22 @@ The aim of this repository is to gather all of these reference solar irradiance
 spectra at the same place and under a 
 [unique well-defined standard format](#dataset-format-and-schema).
 
+## Motivation
+
+The need to organise and manage reference solar irradiance spectrum datasets
+originated in the development of the
+[Eradiate](https://github.com/eradiate/eradiate) radiative transfer model.
+Such a radiative transfer model takes a solar irradiance spectrum as input to
+a radiative transfer simulation.
+The radiative transfer model usually does not work directly with the original 
+data but instead stores the corresponding data under a specific format.
+To convert the data to the specific format, the original data is transformed.
+This comes with two challenges:
+
+* the transformation algorithm must not introduce any error
+* the data traceability must be preserved
+
+which *Tengen* aims to address.
 
 ## Notebooks
 
