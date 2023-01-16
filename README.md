@@ -180,7 +180,7 @@ date.
 
 ![image](img/traceability3.png)
 
-This is the reason why Tengen cannot guarantee data traceability.
+This is the reason why *Tengen* cannot guarantee data traceability.
 This is also the reason why a [cache system](#cache) is provided.
 
 ## Cache
