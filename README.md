@@ -104,6 +104,18 @@ Associated to these two dimensions are two coordinate variables, denoted `t` and
 
 Dataset metadata comply with the [NetCDF Climate and Forecast (CF) Metadata Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html).
 
+The following dataset metadata are set:
+
+* `title`: the title of the dataset
+* `institution`: the institution where the original data was produced
+* `source`: the method of production of the original data
+* `history`: the history of transformations that the original data has undergone
+* `references`: the publications of web-based references that describe the 
+  original data and/or the methods used to produce it
+* `data_url`: the URL where the original data has been downloaded from
+* `data_url_datetime`: the date and time at which the original data has been 
+  downloaded 
+
 ## Cache
 
 A cache is managed that stores the raw and formatted data.
