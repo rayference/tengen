@@ -13,6 +13,9 @@ dependencies = [
     "pandas>=1.5.1",
     "netcdf4>=1.6.1",
     "h5netcdf>=1.0.2",
+    "nbstripout>=0.6.1",
+    "nbconvert>=7.2.8",
+    "jupyterlab>=3.5.2",
 ]
 requires-python = ">=3.8"
 license = {text = "MIT"}
@@ -27,12 +30,3 @@ build-backend = "pdm.pep517.api"
 [tool.pdm.version]
 source = "file"
 path = "src/tengen/__version__.py"
-
-[tool.pdm.dev-dependencies]
-dev = [
-    "jupyterlab>=3.5.0",
-    "ipykernel>=6.17.0",
-    "ipython>=8.6.0",
-    "nbconvert>=7.2.3",
-    "nbstripout>=0.6.1",
-]
