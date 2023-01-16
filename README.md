@@ -141,7 +141,7 @@ means to do so.
 When a notebook is run, the original data is downloaded and converted, i.e.,
 transformed, to the *Tengen* format.
 
-![image](docs/traceability.png)
+![image](img/traceability.png)
 
 To preserve the traceability of the data, the following information is stored
 in the dataset metadata:
@@ -156,7 +156,7 @@ transformation algorithms (this repository) whereas the attributes `data_url`
 and `data_url_datetime` create a link between the original data and the 
 transformed data.
 
-![image](docs/traceability2.png)
+![image](img/traceability2.png)
 
 If any one of these two links is broken, the traceability of the data is lost.
 
@@ -164,7 +164,7 @@ Since the existence and accessibility of the original data cannot be guaranteed,
 data that was downloaded from a URL may not be available anymore at a later
 date.
 
-![image](docs/traceability3.png)
+![image](img/traceability3.png)
 
 This is the reason why Tengen cannot guarantee data traceability.
 This is also the reason why a [cache system](#cache) is provided.
