@@ -114,11 +114,49 @@ The following dataset metadata are set:
   original data and/or the methods used to produce it
 * `data_url`: the URL where the original data has been downloaded from
 * `data_url_datetime`: the date and time at which the original data has been 
-  downloaded 
+  downloaded
+
+## Traceability
+
+[Data traceability](https://codata.org/rdm-terminology/data-traceability/)
+means that one is able to track all the transformations that a dataset has
+undergone from its original form to its current form.
+*Tengen* cannot guarantee data traceability but it strives to provide the
+means to do so.
+When a notebook is run, the original data is downloaded and converted, i.e.,
+transformed, to the *Tengen* format.
+
+![image](docs/traceability.png)
+
+To preserve the traceability of the data, the following information is stored
+in the dataset metadata:
+
+* that date and time at which the dataset was created, including the
+  corresponding *Tengen* version (`history`)
+* the original data URL (`data_url`)
+* the date and time at which the original data was downloaded (`data_url_datetime`)
+
+The attribute `history` create a link between the transformed data and the 
+transformation algorithms (this repository) whereas the attributes `data_url` 
+and `data_url_datetime` create a link between the original data and the 
+transformed data.
+
+![image](docs/traceability2.png)
+
+If any one of these two links is broken, the traceability of the data is lost.
+
+Since the existence and accessibility of the original data cannot be guaranteed,
+data that was downloaded from a URL may not be available anymore at a later
+date.
+
+![image](docs/traceability3.png)
+
+This is the reason why Tengen cannot guarantee data traceability.
+This is also the reason why a [cache system](#cache) is provided.
 
 ## Cache
 
-A cache is managed that stores the raw and formatted data.
+A cache is managed that stores the original (raw) and formatted data.
 By default, running a notebook does not populate the cache.
 To make it so, modify the following line in the *Setup* section of a notebbok:
 
