@@ -24,6 +24,10 @@ build-backend = "pdm.pep517.api"
 
 [tool]
 [tool.pdm]
+[tool.pdm.version]
+source = "file"
+path = "src/tengen/__version__.py"
+
 [tool.pdm.dev-dependencies]
 dev = [
     "jupyterlab>=3.5.0",
