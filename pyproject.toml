@@ -1,7 +1,7 @@
 [project]
 name = "tengen"
 dynamic = ["version"]
-description = "Collection of notebooks to make solar irradiance spectrum datasets."
+description = "Collection of notebooks to manage reference solar irradiance spectrum datasets."
 authors = [
     {name = "Yvan Nollet", email = "yvan.nollet@rayference.eu"},
 ]
