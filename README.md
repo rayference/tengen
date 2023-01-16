@@ -9,7 +9,9 @@ Collection of notebooks to manage reference solar irradiance spectrum datasets.
 
 A number of reference solar irradiance spectra has been made available.
 However, their original format are various and often non-standard.
-The aim of this repository is to gather all of these reference solar irradiance spectra at the same place and under a unique well-defined standard format.
+The aim of this repository is to gather all of these reference solar irradiance 
+spectra at the same place and under a 
+[unique well-defined standard format](dataset-format-and-schema).
 
 
 ## Notebooks
