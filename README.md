@@ -11,8 +11,9 @@ Collection of notebooks to manage reference solar irradiance spectrum datasets.
 A number of reference solar irradiance spectra has been made available.
 However, their original format are various and often non-standard.
 The aim of this repository is to gather all of these reference solar irradiance 
-spectra at the same place and under a 
-[unique well-defined standard format](#dataset-format-and-schema).
+spectra at the same place under a 
+[unique and well-defined standard format](#dataset-format-and-schema) and
+in a manner that supports [data traceability](#traceability).
 
 ## Motivation
 
@@ -30,6 +31,19 @@ This comes with two challenges:
 * the data traceability must be preserved
 
 which *Tengen* aims to address.
+
+## Install
+
+After cloning the repository and navigating to the root directory,
+install the project with [PDM](https://pdm.fming.dev):
+
+```shell
+pdm sync
+```
+
+## Usage
+
+Simply run the notebooks you are interested in.
 
 ## Notebooks
 
