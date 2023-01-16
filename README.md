@@ -64,6 +64,8 @@ Datasets comply with the [netCDF](https://www.unidata.ucar.edu/software/netcdf/)
 
 ### Schema
 
+#### Variables
+
 The dataset contains one data variable:
 * the **s**olar **s**pectral **i**rradiance, denoted `ssi`.
 
@@ -79,6 +81,9 @@ Associated to these two dimensions are two coordinate variables, denoted `t` and
 | `ssi`  | `solar spectral irradiance` | `solar_irradiance_per_unit_wavelength` | `W / m **2/ nm` |
 |  `w`   |        `wavelength`         |         `radiation_wavelength`         |      `nm`       |
 |  `t`   |           `time`            |                 `time`                 |     `days`      |
+
+
+#### Metadata
 
 Dataset metadata comply with the [NetCDF Climate and Forecast (CF) Metadata Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html).
 
