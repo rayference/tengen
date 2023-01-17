@@ -14,8 +14,8 @@ authors:
     orcid: 'https://orcid.org/0000-0002-6241-444X'
 identifiers:
   - type: url
-    value: 'https://github.com/nollety/tengen/releases/tag/v23.1.0'
-    description: The GitHub release URL of tag v23.1.0
+    value: 'https://github.com/nollety/tengen/releases/tag/v23.2.0'
+    description: The GitHub release URL of tag v23.2.0
 repository-code: 'https://github.com/nollety/tengen'
 abstract: Reference solar irradiance spectrum datasets manager.
 keywords:
@@ -23,6 +23,6 @@ keywords:
   - radiative-transfer
   - reference-data
 license: MIT
-commit: b4b180cd236704feed2676b7eb2b43a3911029f1
-version: v23.1.0
-date-released: '2023-01-14'
+commit: b518e4c2da0b4bb0c0d402efbed4badedc20f91c
+version: v23.2.0
+date-released: '2023-01-17'
