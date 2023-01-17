@@ -1,6 +1,6 @@
 # Changelog
 
-## `v23.2.0` (upcoming release)
+## `v23.2.0` (2023-01-17)
 
 ### Improvements
 
