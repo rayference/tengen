@@ -1,0 +1,28 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Tengen
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Yvan
+    family-names: Nollet
+    affiliation: Rayference
+    orcid: 'https://orcid.org/0000-0002-6241-444X'
+identifiers:
+  - type: url
+    value: 'https://github.com/nollety/tengen/releases/tag/v23.1.0'
+    description: The GitHub release URL of tag v23.1.0
+repository-code: 'https://github.com/nollety/tengen'
+abstract: Reference solar irradiance spectrum datasets manager.
+keywords:
+  - solar-spectrum
+  - radiative-transfer
+  - reference-data
+license: MIT
+commit: b4b180cd236704feed2676b7eb2b43a3911029f1
+version: v23.1.0
+date-released: '2023-01-14'
