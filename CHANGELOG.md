@@ -17,6 +17,7 @@
 
 ### Internal changes
 
+* Store wavelength and solar spectral irradiance data on 32-bit floats
 * Updated notebook template
 * Added `matplotlib` dependency
 * Removed dev dependencies from `pyproject.toml`

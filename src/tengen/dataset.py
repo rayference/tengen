@@ -48,17 +48,27 @@ def to_dataset(
         Solar irradiance spectrum data set.
     """
     # Prepare data coordinates and variables
-    coords = {"w": ("w", w.m_as(ATTRS["w"]["units"]), ATTRS["w"])}
+    coords = {
+        "w": ("w", w.m_as(ATTRS["w"]["units"]).astype(np.float32), ATTRS["w"]),
+    }
 
     if t is not None:
         coords["t"] = ("t", t, ATTRS["t"])
         data_vars = {
-            "ssi": (("t", "w"), ssi.m_as(ATTRS["ssi"]["units"]), ATTRS["ssi"]),
+            "ssi": (
+                ("t", "w"),
+                ssi.m_as(ATTRS["ssi"]["units"]).astype(np.float32),
+                ATTRS["ssi"],
+            ),
         }
     else:
         coords["t"] = ("t", np.empty(0), ATTRS["t"])
         data_vars = {
-            "ssi": ("w", ssi.m_as(ATTRS["ssi"]["units"]), ATTRS["ssi"]),
+            "ssi": (
+                "w",
+                ssi.m_as(ATTRS["ssi"]["units"]).astype(np.float32),
+                ATTRS["ssi"],
+            ),
         }
 
     # Prepare attributes
