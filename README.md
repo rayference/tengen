@@ -4,14 +4,14 @@ Reference solar irradiance spectrum datasets manager.
 
 ![GitHub license](https://img.shields.io/github/license/nollety/tengen)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/nollety/tengen)
-[![pdm-managed](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm.fming.dev)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 
 ## Aim
 
 A number of reference solar irradiance spectra has been made available.
 However, their original format are various and often non-standard.
-The aim of this repository is to gather all of these reference solar irradiance 
-spectra at the same place under a 
+The aim of this repository is to gather all of these reference solar irradiance
+spectra at the same place under a
 [unique and well-defined standard format](#dataset-format-and-schema) and
 in a manner that supports [data traceability](#traceability).
 
@@ -22,7 +22,7 @@ originated in the development of the
 [Eradiate](https://github.com/eradiate/eradiate) radiative transfer model.
 Such a radiative transfer model takes a solar irradiance spectrum as input to
 a radiative transfer simulation.
-The radiative transfer model usually does not work directly with the original 
+The radiative transfer model usually does not work directly with the original
 data but instead stores the corresponding data under a specific format.
 To convert the data to the specific format, the original data is transformed.
 This comes with two challenges:
@@ -35,10 +35,10 @@ which *Tengen* aims to address.
 ## Install
 
 After cloning the repository and navigating to the root directory,
-install the project with [PDM](https://pdm.fming.dev):
+install the project with [uv](https://docs.astral.sh/uv/):
 
 ```shell
-pdm sync
+uv sync
 ```
 
 ## Usage
@@ -48,17 +48,16 @@ Simply run the notebooks you are interested in.
 ## Notebooks
 
 The work of downloading and converting raw data for each solar irradiance
-spectrum to a unique format is stored in [Jupyter](https://jupyter.org/) 
+spectrum to a unique format is stored in [Jupyter](https://jupyter.org/)
 notebooks, under `notebooks/`.
 The idea is to have one notebook per solar irradiance spectrum, or per group
-of spectra if the latter somehow come together, e.g. different observation 
-time periods or different spectral resolutions associated to the same 
+of spectra if the latter somehow come together, e.g. different observation
+time periods or different spectral resolutions associated to the same
 observation data.
 
-For example, the `thuillier_2003.ipynb` notebook downloads the raw data for 
+For example, the `thuillier_2003.ipynb` notebook downloads the raw data for
 the well-known *Thuillier (2003)* reference solar irradiance spectrum and
 converts it to the unique format.
-
 
 ### Run a notebook
 
@@ -79,7 +78,6 @@ Run all notebooks with:
 jupyter nbconvert --to notebook --execute notebooks/*.ipynb
 ```
 
-
 ### Write a notebook
 
 Each notebook follows a template defined by `notebooks/tempplate.ipynb`. A notebook is divided into four sections:
@@ -88,7 +86,7 @@ Each notebook follows a template defined by `notebooks/tempplate.ipynb`. A noteb
 * a *Format* section: this is where the function to format the raw data to the *Tengen* format is implemented
 * a *Run* section: identical to all notebooks, executing the cells in this section will download and format the dataset(s) and save them in temporary files or in the cache depending on the value of `UPDATE_CACHE`.
 
-To write a new notebook, begin by copying the template and modify it to 
+To write a new notebook, begin by copying the template and modify it to
 provide the required information and methods implementation.
 In case of doubt, take example on existing notebooks.
 
@@ -98,7 +96,6 @@ on it to remove cells outputs:
 ```shell
 nbstripout notebooks/your_notebook.ipynb
 ```
-
 
 ## Dataset format and schema
 
@@ -128,7 +125,6 @@ Associated to these two dimensions are two coordinate variables, denoted `t` and
 |  `w`   |        `wavelength`         |         `radiation_wavelength`         |      `nm`       |
 |  `t`   |           `time`            |                 `time`                 |     `days`      |
 
-
 #### Metadata
 
 Dataset metadata comply with the [NetCDF Climate and Forecast (CF) Metadata Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html).
@@ -139,10 +135,10 @@ The following dataset metadata are set:
 * `institution`: the institution where the original data was produced
 * `source`: the method of production of the original data
 * `history`: the history of transformations that the original data has undergone
-* `references`: the publications of web-based references that describe the 
+* `references`: the publications of web-based references that describe the
   original data and/or the methods used to produce it
 * `data_url`: the URL where the original data has been downloaded from
-* `data_url_datetime`: the date and time at which the original data has been 
+* `data_url_datetime`: the date and time at which the original data has been
   downloaded
 
 ## Traceability
@@ -165,9 +161,9 @@ in the dataset metadata:
 * the original data URL (`data_url`)
 * the date and time at which the original data was downloaded (`data_url_datetime`)
 
-The attribute `history` create a link between the transformed data and the 
-transformation algorithms (this repository) whereas the attributes `data_url` 
-and `data_url_datetime` create a link between the original data and the 
+The attribute `history` create a link between the transformed data and the
+transformation algorithms (this repository) whereas the attributes `data_url`
+and `data_url_datetime` create a link between the original data and the
 transformed data.
 
 ![image](img/traceability2.png)
@@ -194,4 +190,3 @@ UPDATE_CACHE = False  # change to True to update the cache when running this not
 ```
 
 and change the value to `True` as indicated in the comment.
-
