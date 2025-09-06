@@ -1,13 +1,14 @@
 """Tengen."""
+
 import pint
 
-from .__version__ import __version__
+from ._version import __version__
 from .cache import (
+    FORMATTED_DATA_DIR,
+    RAW_DATA_DIR,
     init_cache,
     list_cache_content,
     remove_cache,
-    RAW_DATA_DIR,
-    FORMATTED_DATA_DIR,
 )
 from .dataset import to_dataset
 

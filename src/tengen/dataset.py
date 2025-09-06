@@ -1,13 +1,14 @@
 """Utility module."""
-from datetime import datetime
+
 import typing as t
+from datetime import datetime
 
 import numpy as np
 import pandas as pd
 import pint
 import xarray as xr
 
-from .__version__ import __version__
+from ._version import __version__
 
 # CF Standard Name Table Version 77, 19 January 2021
 ATTRS = {
