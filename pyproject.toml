@@ -28,3 +28,5 @@ build-backend = "pdm.pep517.api"
 
 [tool]
 [tool.pdm]
+[tool.ruff.lint]
+select = ["I", "F", "E"]
